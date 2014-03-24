@@ -18,10 +18,9 @@ class Model_proxy {
     }
     
     function __call($method, $args) {
-        $msg = $this->model->level.':'.$this->name.'->'.$method.json_encode($args);
-        log_message('debug', $msg);
-        
-        $this->call_stacks[] = $msg;
+        // $msg = $this->model->level.':'.$this->name.'->'.$method.json_encode($args);
+        // log_message('debug', $msg);
+        // $this->call_stacks[] = $msg;
 
         // $this->_before_model();
         
