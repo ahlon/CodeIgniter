@@ -44,10 +44,6 @@ class Welcome extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
-	    $this->load->service('user_service');
-	    $users = $this->user_service->get_all();
-	    print_r($users);
-	    
 		$this->load->view('welcome_message');
 	}
 }

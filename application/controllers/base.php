@@ -1,32 +1,30 @@
 <?php
+require_once APPPATH.'libraries/service_proxy.php';
+require_once APPPATH.'libraries/base_service.php';
 /**
  * @author ahlon
  */
 abstract class Base_Controller extends CI_Controller {
+    // request的后缀
     var $url_suffix;
     
+    // 页面要素
 	var $layout;
 	var $widgets;
 	var $data;
 	
+	// 分页排序参数
 	var $page_size = 10;
 	var $page;
 	var $orderby;
 	
+	// 用户session
 	var $mct_user;
 	
     public function __construct() {
         parent::__construct();
-        $this->load->library('session');
         $this->load->library('widget');
-        $this->load->model('category_model');
         $this->load->helper('utils_helper');
-        
-        $mct_user = $this->session->userdata('mct_user');
-        if ($mct_user) {
-            $this->mct_user = $mct_user;
-            $this->data['mct_user'] = $mct_user;
-        }
         
         $this->p = $this->input->get('p') ? $this->input->get('p') : 1;
         $this->order_by = $this->input->get('o') ? $this->input->get('o') : null;
@@ -38,34 +36,11 @@ abstract class Base_Controller extends CI_Controller {
         $dotpos = strpos($this->uri->uri_string, '.');
         $this->url_suffix = $dotpos > 0 ? substr($this->uri->uri_string, $dotpos + 1) : '';
         
-        $header_menus = $this->category_model->get_children(6);
-        $this->data['header_menus'] = $header_menus;
-        
-        $this->layout = 'layouts/layout_1';
+        $this->layout = 'layouts/common_layout';
         $this->widgets = array(
             'header'=>new Widget('default/header', $this->data),
             'footer'=>new Widget('default/footer', $this->data)
         );
-        
-        if (!empty($this->uri->segments[1])) {
-            $this->data['_obj_type'] = $this->uri->segments[1];
-        }
-        if (!empty($this->uri->segments[2]) && is_int(intval($this->uri->segments[2]))) {
-            $this->data['_obj_id'] = $this->uri->segments[2];
-        }
-    }
-    
-    function is_user_logined() {
-    	$user = $this->session->userdata('mct_user');
-    	return !empty($user);
-    }
-    
-    function __check_login_status() {
-    	if (!$this->is_user_logined()) {
-    		header("location:/login?redirect=".$this->uri->uri_string());
-    		return FALSE;
-    	}
-    	return TRUE;
     }
     
     function render($_config = null) {
@@ -78,4 +53,21 @@ abstract class Base_Controller extends CI_Controller {
         $this->load->library('page', $config);
         $this->page->render();
     }
+    
+//     public function __get($name) {
+//         if (in_array($name, array('load', 'input', 'uri', 'benchmark', 'hooks', 'config', 'log', 'utf8', 'router', 'output', 'security', 'lang'))) {
+//             return $this->$name = $this->ci->$name;
+//         }
+//         if ($name) {
+//             echo 'sss';
+//             $service = substr($name, 0, -8);
+//             return $this->$name = new Service_proxy($service);
+//             if (end_with($name, '_service') && is_file($service_file = APPPATH . 'services/' . $name . '.php')) {
+//                 $service = substr($name, 0, -8);
+//                 return $this->$name = new Service_proxy($service);
+//             }
+//             $class = get_class($this);
+//             log_message('error', $name.' not found in service['.$class.'], pls check the code');
+//         }
+//     }
 }
