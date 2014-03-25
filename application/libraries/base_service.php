@@ -15,9 +15,9 @@ class Base_service {
         $this->ci = &get_instance();
         $this->ci->load->helper("utils_helper");
         if (!empty($model)) {
-            if ($model instanceof Base_model) {
+            if ($model instanceof Base_model || $model instanceof Model_proxy) {
                 $this->model = $model;
-            } else {
+            } else  {
                 $this->model = $this->$model;
             }
         } else {

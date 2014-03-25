@@ -9,4 +9,3 @@ class User_service extends Base_service {
     }
     
 }
-?>

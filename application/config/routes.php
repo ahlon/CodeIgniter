@@ -67,5 +67,8 @@
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 
+$route['login'] = 'home/login';
+$route['register'] = 'home/register';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
