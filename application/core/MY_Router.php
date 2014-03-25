@@ -98,7 +98,7 @@ class MY_Router extends CI_Router {
         // $route['(:any)/(:num)/edit'] = 'general/edit/$1/$2';
         // $route['(:any)/(:num)/update'] = 'general/update/$1/$2';
         // $route['(:any)/(:num)/delete'] = 'general/delete/$1/$2';
-        // $route['(:any)/add'] = 'general/add/$1';
+        // $route['(:any)/new'] = 'general/add/$1';
         // $route['(:any)/save'] = 'general/save/$1';
         // $route['(:any)/list'] = 'general/list/$1';
         // $route['(:any)/index'] = 'general/index/$1';
@@ -110,19 +110,21 @@ class MY_Router extends CI_Router {
         $x = array();
         $x[] = 'common';
         
-        if (count($segments) == 3) {
-            $this->set_method($segments[2]);
-            $x[] = $segments[2];
-        } else if (count($segments) == 2) {
+        if (count($segments) > 2) {
+            $method = $segments[2];
+            $this->set_method($method);
+            $x[] = $method;
+            $x[] = $segments[1];
+        }  else if (count($segments) == 2) {
             if (intval($segments[1]) > 0) {
-                $this->set_method('view');
-                $x[] = 'view';
-                $x[] = $segments[0];
+                $method = 'view';
+                $this->set_method($method);
+                $x[] = $method;
                 $x[] = $segments[1];
             } else {
-                $this->set_method($segments[1]);
-                $x[] = $segments[1];
-                $x[] = $segments[0];
+                $method = $segments[1] == 'new' ? 'add' : $segments[1];
+                $this->set_method($method);
+                $x[] = $method;
             }
         } else {
             $this->set_method('index');

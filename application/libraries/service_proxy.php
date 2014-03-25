@@ -20,7 +20,7 @@ class Service_proxy {
         } else {
             $pos = strpos($service_name, '_service');
             $modal_name = substr($service_name, 0, $pos);
-            $this->service = new Base_service($modal_name.'_model');
+            $this->service = new Common_service($modal_name.'_model');
             return $this->service;
             // log_message('error', $service_name.' not loaded, pls have a check');
         }

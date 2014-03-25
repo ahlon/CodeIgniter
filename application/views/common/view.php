@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped">
+<table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
             <th>属性</th>

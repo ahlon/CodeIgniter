@@ -17,7 +17,7 @@ class Common extends Base_Controller {
         $this->load->service($this->obj_type . '_service', $this->obj_type, 'service');
     }
     
-    // {common}/list
+    // {object} | {object}/list
     function index() {
         $params = array();
         $this->data['list'] = $this->service->search($params, 'id desc', 10, $this->p);
@@ -28,12 +28,12 @@ class Common extends Base_Controller {
         $this->widgets['content'][] = new Widget('common/list', $this->data);
         $this->render();
     }
-        
-    // {common}/view
+    
+    // {object}/view
     function view($id) {
         $this->data['object'] = $this->service->get($id);
         $view = $this->obj_type.'/view';
-        if (file_exists(APPPATH.'views/'.$view.'.php')) {
+        if (file_exists(APPPATH.'views/'.$this->obj_type.'.php')) {
             $this->widgets['content'][] = new Widget($view, $this->data);
         } else {
             $this->widgets['content'][] = new Widget('common/view', $this->data);
@@ -41,24 +41,23 @@ class Common extends Base_Controller {
         $this->render();
     }
     
-    // {common}/new
+    // {object}/new
     function add() {
         $this->data['columns'] = object2array($this->service->columns());
         $this->widgets['content'][] = new Widget('common/new', $this->data);
         $this->render();
     }
     
-    // {common}/save
+    // {object}/save
     function save() {
         // post $object
         $object = $this->input->post('obj');
         $this->service->save($object);
-        
         $this->load->helper('url');
-        redirect('/' . $this->obj_type . '/list');
+        redirect('/'.$this->obj_type);
     }
     
-    // {common}/{id}/edit
+    // {object}/{id}/edit
     function edit($id) {
         $this->data['object'] = $this->service->get($id);
         $this->data['columns'] = object2array($this->service->columns());
@@ -66,14 +65,17 @@ class Common extends Base_Controller {
         $this->render();
     }
     
-    // {common}/{id}/update
-    function update($id) {
+    // {object}/update
+    function update() {
         // post $object
-        $object = $this->post['obj'];
-        $this->service->update($id, $object);
+        $object = $this->input->post('obj');
+        if (!empty($object['id'])) {
+            $this->service->update(intval($object['id']), $object);
+        }
+        redirect('/'.$this->obj_type);
     }
     
-    // {common}/{id}/delete
+    // {object}/{id}/delete
     function delete($id) {
         $this->service->remove($id);
         redirect($this->obj_type);

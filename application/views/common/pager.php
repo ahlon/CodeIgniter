@@ -57,8 +57,10 @@ $last_page_url = get_pager_url($base_uri, $params, $total_page);
         </ul>
         <ul class="pagination pull-right">
             <li><a href="/<?php echo $obj_type;?>/new">New</a></li>
+            <!--  
             <li><a href="/<?php echo $obj_type;?>/new">Edit</a></li>
             <li><a href="/<?php echo $obj_type;?>/new">Delete</a></li>
+            -->
         </ul>
     </div>
 </div>

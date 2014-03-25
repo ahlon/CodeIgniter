@@ -3,8 +3,17 @@ require_once BASEPATH . '/core/Model.php';
 /**
  * @author ahlon
  */
-class Base_model extends CI_Model {
+class Common_model extends Base_model {
     public $table_name;
+    
+    protected $primary_key = 'id';
+    protected $unique_key = '';
+    
+    protected $_id;
+    protected $_status;
+    protected $_creator;
+    protected $_created;
+    protected $_updated;
     
     public function __construct($table_name = '') {
         $this->table_name = $table_name;
@@ -46,12 +55,14 @@ class Base_model extends CI_Model {
     }
     
     public function save($entity) { // &$entity
+        $entity['created'] = date('Y-m-d H:i:s');
         $flag = $this->db->insert($this->table_name, $entity);
         $entity['id'] = $this->db->insert_id();
         return $entity;
     }
     
     public function update($params, $data) {
+        $data['updated'] = date('Y-m-d H:i:s');
         if (is_int($params)) {
             $params = array('id' => $params);
         }
@@ -85,7 +96,13 @@ class Base_model extends CI_Model {
     }
     
     function remove($params) {
-        return $this->delete($params);
+        if (empty($params)) {
+            return false;
+        }
+        if (!is_array($params)) {
+            $params = array('id' => $params);
+        }
+        $this->db->where($params)->update($params, array('status' => 'destroyed'));
     }
     
     public function delete($params) {
@@ -95,16 +112,14 @@ class Base_model extends CI_Model {
         if (!is_array($params)) {
             $params = array('id' => $params);
         }
-        return $this->db->where($params)->delete($this->table_name);
+        $this->db->where($params)->delete($this->table_name);
     }
     
     //     function get_first() {
     //         return $this->db->from($this->table_name)->order_by('id asc')->limit(1, 0)->get()->row_array();
     //     }
     
-    /**
-     * should have order by condition
-     */    
+
     function get_last() {
         return $this->db->from($this->table_name)->order_by('id desc')->limit(1, 0)->get()->row_array();
     }

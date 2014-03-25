@@ -34,9 +34,10 @@ $keys = array_keys($list[0]);
                     }
                     ?>
                     <td class="actions">
-                        <a href="<?php echo $view_url;?>"><i class="icon-search"></i></a>&nbsp;
-                        <a href="<?php echo $edit_url;?>"><i class="icon-edit"></i></a>&nbsp;
-                        <a href="<?php echo $delete_url;?>"><i class="icon-trash"></i></a>&nbsp;
+                        <div class="btn-group btn-group-sm">
+                          <a href="<?php echo $edit_url;?>" class="btn btn-default">Edit</a>
+                          <a href="<?php echo $delete_url;?>" class="btn btn-default">Delete</a>
+                        </div>
                     </td>
                 </tr>
             <?php
