@@ -12,8 +12,8 @@ class Common_model extends Base_model {
     protected $_id;
     protected $_status;
     protected $_creator;
-    protected $_created;
-    protected $_updated;
+    protected $_created_at;
+    protected $_updated_at;
     
     public function __construct($table_name = '') {
         $this->table_name = $table_name;
@@ -55,14 +55,14 @@ class Common_model extends Base_model {
     }
     
     public function save($entity) { // &$entity
-        $entity['created'] = date('Y-m-d H:i:s');
+        $entity['created_at'] = date('Y-m-d H:i:s');
         $flag = $this->db->insert($this->table_name, $entity);
         $entity['id'] = $this->db->insert_id();
         return $entity;
     }
     
     public function update($params, $data) {
-        $data['updated'] = date('Y-m-d H:i:s');
+        $data['updated_at'] = date('Y-m-d H:i:s');
         if (is_int($params)) {
             $params = array('id' => $params);
         }

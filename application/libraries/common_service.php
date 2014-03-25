@@ -11,7 +11,7 @@ class Common_service extends Base_service {
         // print_r($this);
         // echo __CLASS__;
         if (!empty($model)) {
-            if ($model instanceof Base_model) {
+            if ($model instanceof Base_model || $model instanceof Model_proxy) {
                 $this->model = $model;
             } else {
                 $this->model = $this->$model;
@@ -28,13 +28,6 @@ class Common_service extends Base_service {
     function save($bo) {
         return $this->model->save($bo);
     }
-
-    /**
-     * 获取所有业务对象
-     */
-    function get_all() {
-        return $this->model->find_all(array(), 'id');
-    }
     
     /**
      * 根据id获取业务对象
@@ -42,6 +35,17 @@ class Common_service extends Base_service {
      */
     function get($id) {
         return $this->model->load($id);
+    }
+    
+    function get_one($params) {
+        return $this->model->find_one($params);
+    }
+    
+    /**
+     * 获取所有业务对象
+     */
+    function get_all() {
+        return $this->model->find_all(array(), 'id');
     }
     
     /**

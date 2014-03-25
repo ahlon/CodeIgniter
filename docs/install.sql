@@ -1,6 +1,6 @@
 create database coffee DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(30) NOT NULL,
   `nickname` varchar(20) NOT NULL,

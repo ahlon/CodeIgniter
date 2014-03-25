@@ -13,7 +13,14 @@ class Common extends Base_Controller {
         
         $this->obj_type = $this->uri->segments[1];
         $this->data['obj_type'] = $this->obj_type;
-
+        
+        $this->load->service('object_service');
+        $object = $this->object_service->get_one(array('name'=>$this->obj_type));
+        if (empty($object)) {
+            // go to 404 page
+            redirect('/');
+            return false;            
+        }
         $this->load->service($this->obj_type . '_service', $this->obj_type, 'service');
     }
     
