@@ -105,10 +105,10 @@ class MY_Router extends CI_Router {
         // $route['(:any)/(:num)'] = 'general/view/$1/$2';
         // $route['(:any)'] = 'general/index/$1';
         $this->set_directory('');
-        $this->set_class('general');
+        $this->set_class('common');
         
         $x = array();
-        $x[] = 'general';
+        $x[] = 'common';
         
         if (count($segments) == 3) {
             $this->set_method($segments[2]);

@@ -264,6 +264,9 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder);
 
+	// define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
+	define('PUB_ASSETS_PATH', '/public/');
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

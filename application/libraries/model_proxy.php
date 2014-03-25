@@ -7,12 +7,16 @@ class Model_proxy {
     var $name;
     var $call_stacks;
     
-    function __construct($model_name) {
+    function __construct($model_name, $table = false) {
         $this->name = $model_name;
         if (is_file($model_file = APPPATH . 'models/' . $model_name . '.php')) {
             log_message('info', 'load model '.$model_name.', by lazy load');
             require_once ($model_file);
-            return $this->model = new $model_name();
+            if ($table) {
+                return $this->model = new $model_name($table);
+            } else {
+                return $this->model = new $model_name();
+            }
         }
         $this->call_stacks = array();
     }

@@ -15,7 +15,11 @@ class Base_service {
         $this->ci = &get_instance();
         $this->ci->load->helper("utils_helper");
         if (!empty($model)) {
-            $this->model = $model;
+            if ($model instanceof Base_model) {
+                $this->model = $model;
+            } else {
+                $this->model = $this->$model;
+            }
         } else {
             $this->model = $this->base_model;
         }
@@ -38,7 +42,7 @@ class Base_service {
                 return $this->$name = $proxy;
             } else {
                 $table = substr($name, 0, -6);
-                $proxy = new Model_proxy('base_model');
+                $proxy = new Model_proxy('base_model', $table);
                 return $this->$name = $proxy;
             }
         }
