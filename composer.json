@@ -5,6 +5,7 @@
 		"php": ">=5.2.4"
 	},
 	"require-dev": {
-		"mikey179/vfsStream": "*"
+		"mikey179/vfsStream": "*",
+		"abhinavsingh/jaxl": "3.*@dev"
 	}
 }
